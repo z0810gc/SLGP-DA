@@ -87,15 +87,15 @@ This repository supports two types of data conventions:
 - Each sample should provide a **base DR image** and a corresponding **binary mask** indicating candidate synthesis regions.
 - If using Labelme-style exports, group each sample into a folder with consistent naming (e.g., `xxx_json/` containing `img.*` and `label.*`).
 
-**(B) ΔG/ΔC evaluation input (naming alignment)**
+**(B) GPPL input**
+- Provide seed images containing cavity/under-insertion regions.
+- Segmentation outputs (steel + cavity masks) are used to estimate PCA axis and apply constrained axial growth.
+
+**(C) ΔG/ΔC evaluation input (naming alignment)**
 - Masks are indexed by a leading integer ID (e.g., `1_mask_used.png`).
 - Clean images share the same leading ID (e.g., `1.png`).
 - Generated images also share the same leading ID (e.g., `1_*.png`).
 - This ensures “same-location” evaluation between clean and augmented samples.
-
-**(C) GPPL input**
-- Provide seed images containing cavity/under-insertion regions.
-- Segmentation outputs (steel + cavity masks) are used to estimate PCA axis and apply constrained axial growth.
 
 **(D) YOLO11m-OBB downstream dataset**
 - Standard YOLO dataset structure is recommended (train/val/test splits).
