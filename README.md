@@ -191,8 +191,13 @@ The trained weights used in our experiments are stored in the following director
 
 ## 📎 Supplementary Materials
 
-- Paper figures used in this repository are placed in `RE_IMAGE/`.
-- Additional experimental logs, ablation results, or demonstration media can be linked here if needed.
+Additional materials are hosted at:
+👉 https://github.com/z0810gc/SLGP-DA
+
+Includes:
+1. Representative qualitative results and paper figures used in this repository (`RE_IMAGE/`, e.g., Fig. 5/10/11/12/14/15)
+2. Core implementation scripts for the full SLGP-DA pipeline (SLMY / GPPL / ΔGΔC evaluation / YOLO11m-OBB GUI)
+3. Example configuration conventions and folder templates for reproducibility (data organization, naming alignment, and weight placement)
 
 ---
 
