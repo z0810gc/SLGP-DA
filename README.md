@@ -9,7 +9,7 @@ This repository presents the implementation of **SLGP-DA**, a **Structure-Prior 
 - **Boundary continuity evaluation**: ΔG (boundary gradient difference) and ΔC (local contrast difference) for clean vs augmented consistency assessment.
 - **YOLO11m-OBB full chain**: downstream OBB detection and a Qt-based visualization/grading tool.
 
-> Note: Industrial DR datasets and trained weights may be restricted and are NOT included by default. This repository provides reproducible code structure, configuration conventions, and usage guidance for academic verification.
+> Note: Industrial DR datasets may be restricted and are NOT included by default. This repository provides reproducible code structure, configuration conventions, and usage guidance for academic verification.
 
 ---
 
