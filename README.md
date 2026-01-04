@@ -9,7 +9,7 @@ This repository presents the implementation of **SLGP-DA**, a **Structure-Prior 
 - **Boundary continuity evaluation**: ΔG (boundary gradient difference) and ΔC (local contrast difference) for clean vs augmented consistency assessment.
 - **YOLO11m-OBB full chain**: downstream OBB detection and a Qt-based visualization/grading tool.
 
-> Note: Industrial DR datasets and trained weights may be restricted and are NOT included by default. This repository provides reproducible code structure, configuration conventions, and usage guidance for academic verification.
+> Note: Industrial DR datasets may be restricted and are NOT included by default. This repository provides reproducible code structure, configuration conventions, and usage guidance for academic verification.
 
 ---
 
@@ -79,7 +79,7 @@ This repository presents the implementation of **SLGP-DA**, a **Structure-Prior 
 
 ## 🚀 Guide
 
-### 1️⃣ Data Conventions (Important for Reproducibility)
+### 1️⃣ Data Conventions
 
 This repository supports two types of data conventions:
 
@@ -103,7 +103,7 @@ This repository supports two types of data conventions:
 
 ---
 
-### 2️⃣ Run the Core Pipelines (No-Code Overview)
+### 2️⃣ Run the Core Pipelines
 
 #### 2.1 SLMY (Fracture Synthesis)
 - Load a Stable Diffusion base model with LoRA weights.
@@ -111,16 +111,6 @@ This repository supports two types of data conventions:
 - Sweep key control factors (e.g., LoRA scale, strength, random seed) to increase diversity.
 - Apply YOLO-based posterior filtering to reject low-consistency samples.
 - Export accepted images into a structured output folder for downstream training.
-
-**Key controllable parameters (recommended to report in the paper):**
-- Base model (e.g., SD v1.5)
-- Image resolution (e.g., 512×512)
-- Training batch strategy and effective batch size (if LoRA is trained)
-- Learning rate, scheduler, warm-up steps, total steps (if LoRA is trained)
-- LoRA rank and alpha
-- Inference controls (sampling steps, CFG scale)
-- Posterior filtering threshold (minimum confidence) and accepted classes
-- Sampling budget per image (target number of qualified samples)
 
 ---
 
@@ -133,14 +123,6 @@ This repository supports two types of data conventions:
 - Apply boundary feather blending to smooth transitions and reduce artifacts.
 - Export intermediate visualizations (optional) and final augmented images.
 
-**Key controllable parameters (recommended to report in the paper):**
-- Segmentation weights/version
-- PCA axis estimation details (mask preprocessing, axis direction unification)
-- Step length (pixels) and number of steps
-- Half-space constraint rule
-- Photometric alignment parameters
-- Feathering radius (pixels)
-
 ---
 
 #### 2.3 Boundary Continuity Evaluation (ΔG / ΔC)
@@ -149,23 +131,12 @@ This repository supports two types of data conventions:
 - Perform clean vs augmented comparison using matched boundary locations.
 - Export per-sample results into a CSV for statistical testing and plotting.
 
-**Key controllable parameters (recommended to report in the paper):**
-- Boundary band radius (pixels)
-- Gradient operator settings (e.g., Sobel magnitude)
-- Contrast definition (e.g., RMS contrast)
-- Candidate boundary sampling protocol (same-location principle)
-
 ---
 
 #### 2.4 YOLO11m-OBB Full Chain (Training + GUI)
 - Train a YOLO11m-OBB detector on clean-only vs augmented datasets to quantify gains.
 - Evaluate standard detection metrics (mAP, IoU-related measures) and compare against baselines.
 - Use the Qt GUI tool for inference visualization, qualitative inspection, and grading integration (if enabled).
-
-**Key controllable parameters (recommended to report in the paper):**
-- Model variant (YOLO11m-OBB)
-- Input size, epochs, batch size, optimizer/schedule (as applicable)
-- Confidence threshold, IoU threshold, inference image size (for GUI/visualization)
 
 ---
 
