@@ -9,7 +9,7 @@ This repository presents the implementation of **SLGP-DA**, a **Structure-Prior 
 - **Boundary continuity evaluation**: ΔG (boundary gradient difference) and ΔC (local contrast difference) for clean vs augmented consistency assessment.
 - **YOLO11m-OBB full chain**: downstream OBB detection and a Qt-based visualization/grading tool.
 
-> Note: Industrial DR datasets may be restricted and are NOT included by default. This repository provides reproducible code structure, configuration conventions, and usage guidance for academic verification.
+> Note: Industrial DR datasets and trained weights may be restricted and are NOT included by default. This repository provides reproducible code structure, configuration conventions, and usage guidance for academic verification.
 
 ---
 
@@ -171,13 +171,21 @@ This repository supports two types of data conventions:
 
 ## 🧠 Models and Resources
 
-Recommended weight placement:
-- LoRA weights: `weights/lora/`
-- YOLO detection (posterior filtering): `weights/yolo11m_det.pt`
-- YOLO segmentation (GPPL): `weights/yolo11m_seg.pt`
-- YOLO OBB (downstream): `weights/yolo11m_obb.pt`
+The trained weights used in our experiments are stored in the following directories (relative to the repository root):
 
-> If you cannot redistribute weights, please document the acquisition method (official release link / training procedure) in an internal note.
+- **LoRA weights (SLMY / DreamBooth-LoRA checkpoint):**  
+  `SLMY/lora-ssfracture/checkpoint-500/`
+
+- **YOLO detection weights for posterior filtering (SLMY):**  
+  `SLMY/YOLO-Det_filter_weights/`
+
+- **YOLO segmentation weights (GPPL / MODEL_WTS):**  
+  `GPPL/MODEL_WTS/`
+
+- **YOLO11m-OBB downstream deployment weights and related resources:**  
+  `Engineering_Deployment/`
+
+> If you cannot redistribute weights, please document the acquisition method (official release link / training procedure) in a private note or in the repository wiki.
 
 ---
 
