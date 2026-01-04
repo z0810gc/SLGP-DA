@@ -77,22 +77,9 @@ This repository presents the implementation of **SLGP-DA**, a **Structure-Prior 
 
 ---
 
-## 🚀 Quick Start Guide
+## 🚀 Guide
 
-### 1️⃣ Prepare Repository Structure
-
-Please place paper figures under:
-- `SLGP-DA/RE_IMAGE/` with filenames: `Fig5.png`, `Fig10.png`, `Fig11.png`, `Fig12.png`, `Fig14a.png`, `Fig14b.png`, `Fig15.png`.
-
-Recommended repository layout:
-- `src/` for core scripts (SLMY / GPPL / ΔGΔC / GUI)
-- `weights/` for LoRA and YOLO model weights
-- `data/` for datasets following the conventions below
-- `outputs/` for generated samples, metrics CSVs, logs, and visualization results
-
----
-
-### 2️⃣ Data Conventions (Important for Reproducibility)
+### 1️⃣ Data Conventions (Important for Reproducibility)
 
 This repository supports two types of data conventions:
 
@@ -116,9 +103,9 @@ This repository supports two types of data conventions:
 
 ---
 
-### 3️⃣ Run the Core Pipelines (No-Code Overview)
+### 2️⃣ Run the Core Pipelines (No-Code Overview)
 
-#### 3.1 SLMY (Fracture Synthesis)
+#### 2.1 SLMY (Fracture Synthesis)
 - Load a Stable Diffusion base model with LoRA weights.
 - Perform mask-constrained local synthesis for each candidate region.
 - Sweep key control factors (e.g., LoRA scale, strength, random seed) to increase diversity.
@@ -137,7 +124,7 @@ This repository supports two types of data conventions:
 
 ---
 
-#### 3.2 GPPL (Cavity Expansion)
+#### 2.2 GPPL (Cavity Expansion)
 - Segment steel anchor and cavity regions to obtain masks.
 - Compute PCA principal axis of the steel anchor region.
 - Enforce half-space constraint to restrict physically plausible growth direction.
@@ -156,7 +143,7 @@ This repository supports two types of data conventions:
 
 ---
 
-#### 3.3 Boundary Continuity Evaluation (ΔG / ΔC)
+#### 2.3 Boundary Continuity Evaluation (ΔG / ΔC)
 - Compute boundary gradient difference ΔG within a narrow band around defect boundaries.
 - Compute local contrast difference ΔC within the same band.
 - Perform clean vs augmented comparison using matched boundary locations.
@@ -170,7 +157,7 @@ This repository supports two types of data conventions:
 
 ---
 
-#### 3.4 YOLO11m-OBB Full Chain (Training + GUI)
+#### 2.4 YOLO11m-OBB Full Chain (Training + GUI)
 - Train a YOLO11m-OBB detector on clean-only vs augmented datasets to quantify gains.
 - Evaluate standard detection metrics (mAP, IoU-related measures) and compare against baselines.
 - Use the Qt GUI tool for inference visualization, qualitative inspection, and grading integration (if enabled).
