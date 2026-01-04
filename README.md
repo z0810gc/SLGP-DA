@@ -41,9 +41,21 @@ This repository presents the implementation of **SLGP-DA**, a **Structure-Prior 
 ---
 
 ### ▶ Dual-Branch Qualitative Results (Fig. 14–15)
-![Fig14](RE_IMAGE/Fig14.png)
 
-> Figure 14: Representative qualitative results of dual-path augmentation.
+<table>
+  <tr>
+    <td align="center">
+      <img src="RE_IMAGE/Fig14a.png" alt="Fig14(a)" width="480">
+      <br><b>Fig. 14(a)</b>
+    </td>
+    <td align="center">
+      <img src="RE_IMAGE/Fig14b.png" alt="Fig14(b)" width="480">
+      <br><b>Fig. 14(b)</b>
+    </td>
+  </tr>
+</table>
+
+> Figure 14: Representative qualitative results of dual-path augmentation. (a) [caption aligned with the paper]. (b) [caption aligned with the paper].
 
 ![Fig15](RE_IMAGE/Fig15.png)
 
@@ -70,7 +82,7 @@ This repository presents the implementation of **SLGP-DA**, a **Structure-Prior 
 ### 1️⃣ Prepare Repository Structure
 
 Please place paper figures under:
-- `SLGP-DA/RE_IMAGE/` with filenames: `Fig5.png`, `Fig10.png`, `Fig11.png`, `Fig12.png`, `Fig14.png`, `Fig15.png`.
+- `SLGP-DA/RE_IMAGE/` with filenames: `Fig5.png`, `Fig10.png`, `Fig11.png`, `Fig12.png`, `Fig14a.png`, `Fig14b.png`, `Fig15.png`.
 
 Recommended repository layout:
 - `src/` for core scripts (SLMY / GPPL / ΔGΔC / GUI)
