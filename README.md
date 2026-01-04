@@ -45,11 +45,11 @@ This repository presents the implementation of **SLGP-DA**, a **Structure-Prior 
 <table>
   <tr>
     <td align="center">
-      <img src="RE_IMAGE/Fig14a.png" alt="Fig14(a)" width="480">
+      <img src="RE_IMAGE/Fig14(a).png" alt="Fig14(a)" width="480">
       <br><b>Fig. 14(a)</b>
     </td>
     <td align="center">
-      <img src="RE_IMAGE/Fig14b.png" alt="Fig14(b)" width="480">
+      <img src="RE_IMAGE/Fig14(b).png" alt="Fig14(b)" width="480">
       <br><b>Fig. 14(b)</b>
     </td>
   </tr>
