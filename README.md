@@ -36,7 +36,7 @@ This repository presents the implementation of **SLGP-DA**, a **Structure-Prior 
 ### ▶ GPPL Branch: Axial Prior & Half-Space Constrained Expansion (Fig. 5–6)
 ![Fig5](RE_IMAGE/Fig5.png)
 
-> Figure 5: Fig. 5 illustrates the DR imaging rationale underlying cavity expansion: due to lower X-ray attenuation in air gaps than in surrounding metals, the cavity region typically exhibits a higher gray-level response. 
+> Figure 5 illustrates the DR imaging rationale underlying cavity expansion: due to lower X-ray attenuation in air gaps than in surrounding metals, the cavity region typically exhibits a higher gray-level response. 
 
 ![Fig6](RE_IMAGE/Fig6.png)
 
