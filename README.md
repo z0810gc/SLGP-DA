@@ -29,7 +29,7 @@ This repository presents the implementation of **SLGP-DA**, a **Structure-Prior 
 
 ![Fig4](RE_IMAGE/Fig4.png)
 
-> Figure 3: SLMY pipeline including LoRA prior injection, mask-guided synthesis, and YOLO-based posterior screening.
+> Figure 4: SLMY pipeline including LoRA prior injection, mask-guided synthesis, and YOLO-based posterior screening.
 
 ---
 
