@@ -15,28 +15,32 @@ This repository presents the implementation of **SLGP-DA**, a **Structure-Prior 
 
 ## 📊 Architecture Overview
 
-### ▶ SLGP-DA Dual-Path Framework (Fig. 5)
+### ▶ SLGP-DA Dual-Path Framework (Fig. 1)
+![Fig1](RE_IMAGE/Fig1.png)
+
+> Figure 1: Overall structure-prior guided dual-path augmentation framework (SLMY for fracture synthesis, GPPL for cavity expansion) and its integration with downstream detection.
+
+---
+
+### ▶ SLMY Branch: Mask-Constrained Local Synthesis (Fig. 3–4)
+![Fig3](RE_IMAGE/Fig3.png)
+
+> Figure 3: Mask-constrained local synthesis mechanism in the latent space.
+
+![Fig4](RE_IMAGE/Fig4.png)
+
+> Figure 3: SLMY pipeline including LoRA prior injection, mask-guided synthesis, and YOLO-based posterior screening.
+
+---
+
+### ▶ GPPL Branch: Axial Prior & Half-Space Constrained Expansion (Fig. 5–6)
 ![Fig5](RE_IMAGE/Fig5.png)
 
-> Figure 5: Overall structure-prior guided dual-path augmentation framework (SLMY for fracture synthesis, GPPL for cavity expansion) and its integration with downstream detection.
+> Figure 5: Fig. 5 illustrates the DR imaging rationale underlying cavity expansion: due to lower X-ray attenuation in air gaps than in surrounding metals, the cavity region typically exhibits a higher gray-level response. 
 
----
+![Fig6](RE_IMAGE/Fig6.png)
 
-### ▶ SLMY Branch: Mask-Constrained Local Synthesis (Fig. 10–11)
-![Fig10](RE_IMAGE/Fig10.png)
-
-> Figure 10: Mask-constrained local synthesis mechanism in the latent space.
-
-![Fig11](RE_IMAGE/Fig11.png)
-
-> Figure 11: SLMY pipeline including LoRA prior injection, mask-guided synthesis, and YOLO-based posterior screening.
-
----
-
-### ▶ GPPL Branch: Axial Prior & Half-Space Constrained Expansion (Fig. 12)
-![Fig12](RE_IMAGE/Fig12.png)
-
-> Figure 12: GPPL workflow including segmentation, PCA axis estimation, half-space constraint, stepwise axial expansion, photometric alignment, and blending.
+> Figure 6: GPPL workflow including segmentation, PCA axis estimation, half-space constraint, stepwise axial expansion, photometric alignment, and blending.
 
 ---
 
