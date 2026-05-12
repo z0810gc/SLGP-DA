@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (
     QSizePolicy, QGroupBox, QFrame
 )
 from PySide6.QtCore import Qt, QThread, Signal, QRectF
-from PySide6.QtGui import QPixmap, QImage
+from PySide6.QtGui import QPixmap, QImage, QColor
 
 # ====================== Color palette & helpers ======================
 PALETTE = np.array([
@@ -143,19 +143,47 @@ class ImageView(QGraphicsView):
         super().__init__()
         self.setScene(QGraphicsScene(self))
         self.setDragMode(QGraphicsView.ScrollHandDrag)
+        self.setAlignment(Qt.AlignCenter)
+        self.setFrameShape(QFrame.NoFrame)
+        self.setBackgroundBrush(QColor("#111827"))
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.setMinimumSize(760, 420)
         self._pixmap_item = None
         self._rgb_backing = None
+        self._image_aspect = None
+
+    def _fit_image(self):
+        if self._pixmap_item is not None:
+            self.fitInView(self.sceneRect(), Qt.KeepAspectRatio)
+
+    def _sync_height_to_image(self):
+        if self._image_aspect is None:
+            return
+        viewport_w = max(1, self.viewport().width())
+        target_h = int(viewport_w * self._image_aspect) + 4
+        target_h = max(420, min(target_h, 600))
+        self.setMinimumHeight(target_h)
+        self.setMaximumHeight(target_h)
+
     def set_image(self, bgr_img: np.ndarray):
         if bgr_img is None: return
         rgb = cv2.cvtColor(bgr_img, cv2.COLOR_BGR2RGB)
         self._rgb_backing = np.ascontiguousarray(rgb)
         h, w, ch = self._rgb_backing.shape
+        self._image_aspect = h / max(1, w)
         qimg = QImage(self._rgb_backing.data, w, h, ch*w, QImage.Format.Format_RGB888)
         pix = QPixmap.fromImage(qimg)
         self.scene().clear()
         self._pixmap_item = self.scene().addPixmap(pix)
         self.setSceneRect(QRectF(0, 0, w, h))
-        self.fitInView(self.sceneRect(), Qt.KeepAspectRatio)
+        self._sync_height_to_image()
+        self._fit_image()
+
+    def resizeEvent(self, e):
+        super().resizeEvent(e)
+        self._sync_height_to_image()
+        self._fit_image()
+
     def wheelEvent(self, e):
         factor = 1.15 if e.angleDelta().y() > 0 else 1/1.15
         self.scale(factor, factor)
@@ -170,55 +198,60 @@ class MainWindow(QMainWindow):
 
         # ---- Light theme stylesheet (cards / inputs / tables / buttons) ----
         self.setStyleSheet("""
-            QMainWindow { background: #f5f7fb; }
-            QLabel { color: #1f2937; font-size: 13px; }
+            QMainWindow { background: #e9eef5; }
+            QWidget { font-family: "DejaVu Sans"; }
+            QLabel { color: #253244; font-size: 13px; }
             QGroupBox {
-                background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px;
-                margin-top: 10px; padding: 10px 12px 12px 12px;
+                background: #fbfdff; border: 1px solid #d4deea; border-radius: 9px;
+                margin-top: 10px; padding: 9px 12px 12px 12px;
             }
             QGroupBox::title { subcontrol-origin: margin; left: 12px; padding: 0 4px;
-                color:#111827; font-weight: 600; background: transparent; }
+                color:#102033; font-weight: 700; background: #fbfdff; }
 
             QLineEdit, QDoubleSpinBox, QSpinBox, QCheckBox, QComboBox {
-                background:#ffffff; border:1px solid #d1d5db; border-radius:6px; padding:4px 6px;
+                background:#ffffff; border:1px solid #bfccd9; border-radius:6px; padding:4px 6px;
+                min-height: 28px;
             }
             QLineEdit:focus, QDoubleSpinBox:focus, QSpinBox:focus {
-                border:1px solid #60a5fa;
+                border:1px solid #0891b2;
+                background:#f7feff;
             }
 
-            /* replace your QPushButton styles with this */
             QPushButton {
-                background:#E8F0FF;      /* very light blue */
-                color:#0F172A;           /* 深色文字 */
-                border:1px solid #D9E6FF;
+                background:#263e73;
+                color:#ffffff;
+                border:1px solid #1e315c;
                 border-radius:8px;
                 padding:8px 10px;
-                font-weight:600;
+                font-weight:700;
             }
-            QPushButton:hover   { background:#DFEAFF; }  /* 略深一点点做悬停 */
-            QPushButton:pressed { background:#D0DFFF; }  /* 按下 */
+            QPushButton:hover   { background:#31508f; }
+            QPushButton:pressed { background:#1f3158; }
             QPushButton:disabled{
-                background:#F4F8FF;
-                color:#9AA4B2;
-                border:1px solid #EEF3FF;
+                background:#dbe3ec;
+                color:#8a98a8;
+                border:1px solid #c4d0dc;
             }
 
 
             QTableWidget {
-                background:#ffffff; border:1px solid #e5e7eb; border-radius:8px;
-                gridline-color:#e5e7eb; alternate-background-color:#fafbff;
+                background:#ffffff; border:1px solid #d4deea; border-radius:8px;
+                gridline-color:#dde6ef; alternate-background-color:#f6fafb;
+                selection-background-color:#ccecf3;
+                selection-color:#102033;
             }
             QHeaderView::section {
-                background:#f3f4f6; color:#111827; padding:6px; border: 0px; border-right:1px solid #e5e7eb;
+                background:#dbe8f3; color:#102033; padding:6px; border: 0px; border-right:1px solid #c8d6e4;
+                font-weight:700;
             }
             QTableWidget::item { padding:6px; }
-            QScrollBar:vertical { background:#f3f4f6; width:10px; border:none; }
-            QScrollBar::handle:vertical { background:#d1d5db; border-radius:5px; }
-            QStatusBar { background:#ffffff; border-top:1px solid #e5e7eb; }
+            QScrollBar:vertical { background:#e9eef5; width:10px; border:none; }
+            QScrollBar::handle:vertical { background:#aebdcc; border-radius:5px; }
+            QStatusBar { background:#fbfdff; border-top:1px solid #d4deea; }
         """)
 
         # ---------- left panel widgets ----------
-        self.ed_model = QLineEdit("/home/zgc/datawork/DRimage/ultralytics-main0924/ultralytics-main/datas/o_crimp/runs/obb/train10/weights/best.pt")
+        self.ed_model = QLineEdit("/home/zgc/datawork/DRimage/ultralytics-main0924/runs/obb/train10/weights/best.pt")
         self.btn_load = QPushButton("Load Model")
         self.ed_img   = QLineEdit("/home/zgc/datawork/DRimage/ultralytics-main0924/ultralytics-main/datas/o_crimp/images/test/uc_0242.png")
         self.btn_img  = QPushButton("Select Image")
@@ -277,6 +310,10 @@ class MainWindow(QMainWindow):
 
         # left column container
         left = QWidget(); lyt_left = QVBoxLayout(left)
+        left.setMinimumWidth(260)
+        left.setMaximumWidth(300)
+        lyt_left.setContentsMargins(10, 10, 8, 10)
+        lyt_left.setSpacing(6)
         lyt_left.addWidget(gb_model)
         lyt_left.addWidget(gb_image)
         lyt_left.addWidget(gb_params)
@@ -287,10 +324,18 @@ class MainWindow(QMainWindow):
         # Center view (framed)
         self.view = ImageView()
         center_frame = QGroupBox("Preview")
-        center_layout = QVBoxLayout(center_frame); center_layout.addWidget(self.view)
+        center_frame.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        center_layout = QVBoxLayout(center_frame)
+        center_layout.setContentsMargins(12, 18, 12, 10)
+        center_layout.setSpacing(6)
+        center_layout.addWidget(self.view)
+        self.preview_hint = QLabel("X-ray OBB detection preview")
+        self.preview_hint.setAlignment(Qt.AlignCenter)
+        self.preview_hint.setStyleSheet("color:#64748b; font-size:12px; padding:4px 0 0 0;")
+        center_layout.addWidget(self.preview_hint)
 
-        # ===== Fixed right panel width =====
-        self.RIGHT_PANEL_W = 520
+        # Table width fallback used before widgets receive their final sizes.
+        self.RIGHT_PANEL_W = 720
 
         # Right tables (grouped)
         def build_table(headers):
@@ -321,22 +366,49 @@ class MainWindow(QMainWindow):
         gb_aux    = QGroupBox("Auxiliary targets"); la = QVBoxLayout(gb_aux);    la.addWidget(self.aux_table)
         gb_eval   = QGroupBox("Defect assessment"); le = QVBoxLayout(gb_eval);   le.addWidget(self.eval_table)
         gb_over   = QGroupBox("Overall");           lo = QVBoxLayout(gb_over);   lo.addWidget(self.overall_table)
+        for gb in (gb_defect, gb_aux, gb_eval, gb_over):
+            gb.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        gb_defect.setMinimumHeight(190)
+        gb_aux.setMinimumHeight(190)
+        gb_eval.setMinimumHeight(190)
+        gb_over.setMinimumHeight(190)
 
         # Layout composition
-        splitter = QSplitter()
+        results_left = QWidget()
+        results_left_layout = QVBoxLayout(results_left)
+        results_left_layout.setContentsMargins(0, 0, 4, 0)
+        results_left_layout.setSpacing(8)
+        results_left_layout.addWidget(gb_defect)
+        results_left_layout.addWidget(gb_aux)
+
+        results_right = QWidget()
+        results_right_layout = QVBoxLayout(results_right)
+        results_right_layout.setContentsMargins(4, 0, 0, 0)
+        results_right_layout.setSpacing(8)
+        results_right_layout.addWidget(gb_eval)
+        results_right_layout.addWidget(gb_over)
+
+        results_panel = QWidget()
+        results_layout = QHBoxLayout(results_panel)
+        results_layout.setContentsMargins(0, 0, 0, 0)
+        results_layout.setSpacing(10)
+        results_layout.addWidget(results_left, 3)
+        results_layout.addWidget(results_right, 2)
+
+        main_panel = QWidget()
+        main_layout = QVBoxLayout(main_panel)
+        main_layout.setContentsMargins(10, 10, 10, 10)
+        main_layout.setSpacing(8)
+        main_layout.addWidget(center_frame, 0)
+        main_layout.addWidget(results_panel, 1)
+
+        splitter = QSplitter(Qt.Horizontal)
         splitter.addWidget(left)
-        splitter.addWidget(center_frame)
+        splitter.addWidget(main_panel)
 
-        right_panel = QWidget()
-        right_layout = QVBoxLayout(right_panel)
-        right_layout.addWidget(gb_defect)
-        right_layout.addWidget(gb_aux)
-        right_layout.addWidget(gb_eval)
-        right_layout.addWidget(gb_over)
-        right_panel.setFixedWidth(self.RIGHT_PANEL_W)
-        splitter.addWidget(right_panel)
-
-        splitter.setSizes([300, 820, self.RIGHT_PANEL_W])
+        splitter.setSizes([290, 1490])
+        splitter.setStretchFactor(0, 0)
+        splitter.setStretchFactor(1, 1)
         self.setCentralWidget(splitter)
 
         # Status bar
@@ -594,7 +666,7 @@ class MainWindow(QMainWindow):
 def main():
     app = QApplication(sys.argv)
     w = MainWindow()
-    w.resize(1500, 880)
+    w.resize(1780, 1000)
     w.show()
     sys.exit(app.exec())
 
