@@ -319,7 +319,7 @@ if __name__ == "__main__":
     ap.add_argument("--yolo_model", type=str,
                     default="/home/zgc/datawork/DRimage/ultralytics-main0924/ultralytics-main/runs/detect/train3/weights/best.pt",
                     help="Trained YOLO11 detection model path")
-    ap.add_argument("--min_conf", type=float, default=0.65,
+    ap.add_argument("--min_conf", type=float, default=0.95,
                     help="Minimum confidence threshold for qualified samples")
     ap.add_argument("--accept_classes", type=str, default="",
                     help="Optional: restrict accepted class ID list (comma-separated). Empty = accept any class.")
